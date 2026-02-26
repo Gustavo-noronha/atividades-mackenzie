@@ -5,4 +5,5 @@ me=restokm//1000
 restome=M%1000
 cm=restome//10
 restocm=M%10
+
 print(km,'km',me,'m',cm,'cm.(Sobram',restocm,'mm)')
