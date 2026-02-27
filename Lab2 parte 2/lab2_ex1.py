@@ -1,0 +1,5 @@
+Nome=input('qual seu nome ?')
+Idade=int(input('qual sua idade ?'))
+Altura=float(input('qual sua altura em metros?'))
+Peso=float(input('qual seu peso em KG?'))
+print(f'o seu nome è {Nome} de idade {Idade} de altura {Altura} metro(s) de peso {Peso} KG')
