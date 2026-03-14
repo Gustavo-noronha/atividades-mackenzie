@@ -29,12 +29,16 @@ def valor_cdb (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb):
     lucro=valor_bruto-total_investido
     valor_final=valor_bruto-(lucro*regressiva_ir(prazo_investimento))
     return valor_final
-cap_inicial=float(input('Capital inicial: '))
-apo_mensal=float(input('qual aporte mensal: '))
-prazo_investimento=float(input('qual o prazo do investimento(em meses): '))
-cdi=float(input('CDI anual(%): '))
-perc_cdi_cdb=float(input('Percentual do CDI aplicado ao CDB (%): '))
-perc_cdi_lci=float(input('Percentual do CDI aplicado à LCI/LCA (%): '))
-renta_mensa=float(input('Rentabilidade mensal esperada do FII (%): '))
-meta=float(input('Meta financeira desejada: '))
-print(f'valor cdb {valor_br(valor_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))} e a taxa{regressiva_ir(prazo_investimento)}')
+def dados():
+    cap_inicial=float(input('Capital inicial: '))
+    apo_mensal=float(input('qual aporte mensal: '))
+    prazo_investimento=float(input('qual o prazo do investimento(em meses): '))
+    cdi=float(input('CDI anual(%): '))
+    perc_cdi_cdb=float(input('Percentual do CDI aplicado ao CDB (%): '))
+    perc_cdi_lci=float(input('Percentual do CDI aplicado à LCI/LCA (%): '))
+    renta_mensa=float(input('Rentabilidade mensal esperada do FII (%): '))
+    meta=float(input('Meta financeira desejada: '))
+    return cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta
+def main():
+    cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()
+main()
