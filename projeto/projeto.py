@@ -35,20 +35,20 @@ def calcular_cdb (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb):#c
     return valor_final
 
 def calcular_fii (cap_inicial, apo_mensal, prazo_investimento, renta_mensa):
-    taxa_convertida=renta_mensa/100
+    taxa_convertida=renta_mensa/100#% para decimal 
     valor_principal=cap_inicial*math.pow(1+taxa_convertida, prazo_investimento) + apo_mensal * ((math.pow(1+taxa_convertida, prazo_investimento)-1)/taxa_convertida)
-    calculo1=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculo1=valor_principal*(1 + random.uniform(-0.03, 0.03))#gera os 5 testes aleatorios
     calculo2=valor_principal*(1 + random.uniform(-0.03, 0.03))
     calculo3=valor_principal*(1 + random.uniform(-0.03, 0.03))
     calculo4=valor_principal*(1 + random.uniform(-0.03, 0.03))
     calculo5=valor_principal*(1 + random.uniform(-0.03, 0.03))
-    calculos=[calculo1, calculo2, calculo3, calculo4, calculo5]
-    media=statistics.mean(calculos)
-    mediana = statistics.median(calculos)
-    desvio = statistics.stdev(calculos)
+    calculos=[calculo1, calculo2, calculo3, calculo4, calculo5]#cria uma lista para statistics conseguir ler
+    media=statistics.mean(calculos)#gera media
+    mediana = statistics.median(calculos)#gera mediana
+    desvio = statistics.stdev(calculos)#gera desvio padrao
     return media,mediana,desvio
-def graficos (cdb_1,media_fii):
-    maior=max(cdb_1,media_fii)
+def graficos (cdb_1,media_fii):#gera a quantidade de blocos a serem usadas
+    maior=max(cdb_1,media_fii)#pega o maior valor presente
     barra_cdb=int((cdb_1/maior)*50)
     barra_fii=int((media_fii/maior)*50)
     return barra_cdb,barra_fii
@@ -83,15 +83,15 @@ def validação (cap_inicial,apo_mensal,prazo_investimento):#verifica se os valo
 def principal ():#função principal para reunir os prints
     print('===== PyInvest - Simulador ===========================')#enfeite
     cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()#chama os input e guarda eles 
-    media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)
-    cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)
-    barra_cdb,barra_fii=graficos(cdb_1,media_fii)
+    media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
+    cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)#transforma a função em um variavel
+    barra_cdb,barra_fii=graficos(cdb_1,media_fii)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar 
-    data_e_total(prazo_investimento,cap_inicial,apo_mensal)
+    data_e_total(prazo_investimento,cap_inicial,apo_mensal)#mostra a hora e o prazo
     print(f'CDB         : {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#valor cdb
-    print(f'Grafico     : {'█'*barra_cdb}')
-    print(f'FII (Media) : {valor_br(media_fii)}')
-    print(f'Grafico     : {'█'*barra_fii}')
-    print(f'A mediana de FII foi de {valor_br(mediana_fii)}')
-    print(f'A desvio de FII foi de {valor_br(desvio_fii)}') 
+    print(f'Grafico     : {'█'*barra_cdb}')#gera o grafico 
+    print(f'FII (Media) : {valor_br(media_fii)}')#valor FII
+    print(f'Grafico     : {'█'*barra_fii}')#gera o grafico 
+    print(f'A mediana de FII foi de {valor_br(mediana_fii)}')#gera a mediana 
+    print(f'O desvio padrão de FII foi de {valor_br(desvio_fii)}') #gera o desvio
 principal()#inicial a função principal para colocar os dados
