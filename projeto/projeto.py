@@ -34,10 +34,29 @@ def calcular_cdb (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb):#c
     valor_final=valor_bruto-(lucro*regressiva_ir(prazo_investimento))#valor final
     return valor_final
 
+def calcular_fii (cap_inicial, apo_mensal, prazo_investimento, renta_mensa):
+    taxa_convertida=renta_mensa/100
+    valor_principal=cap_inicial*math.pow(1+taxa_convertida, prazo_investimento) + apo_mensal * ((math.pow(1+taxa_convertida, prazo_investimento)-1)/taxa_convertida)
+    calculo1=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculo2=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculo3=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculo4=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculo5=valor_principal*(1 + random.uniform(-0.03, 0.03))
+    calculos=[calculo1, calculo2, calculo3, calculo4, calculo5]
+    media=statistics.mean(calculos)
+    mediana = statistics.median(calculos)
+    desvio = statistics.stdev(calculos)
+    return media,mediana,desvio
+def graficos (cdb_1,media_fii):
+    maior=max(cdb_1,media_fii)
+    barra_cdb=int((cdb_1/maior)*50)
+    barra_fii=int((media_fii/maior)*50)
+    return barra_cdb,barra_fii
+
 def dados():#valores a serem enseridos
     cap_inicial=float(input('Capital inicial: '))
-    apo_mensal=float(input('qual aporte mensal: '))
-    prazo_investimento=float(input('qual o prazo do investimento(em meses): '))
+    apo_mensal=float(input('Qual aporte mensal: '))
+    prazo_investimento=float(input('Qual o prazo do investimento(em meses): '))
     cdi=float(input('CDI anual(%): '))
     perc_cdi_cdb=float(input('Percentual do CDI aplicado ao CDB (%): '))
     perc_cdi_lci=float(input('Percentual do CDI aplicado à LCI/LCA (%): '))
@@ -45,10 +64,10 @@ def dados():#valores a serem enseridos
     meta=float(input('Meta financeira desejada: '))
     return cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta
 
-def data_e_total (prazo_investimento,cap_inicial,apo_mensal):#define dia e resgate , valor final e ainda sapera visualmente os blocos
-    hoje=datetime.datetime.now()
-    resgate=hoje+datetime.timedelta(days=prazo_investimento*30)
-    total_investido=cap_inicial+(apo_mensal*prazo_investimento)
+def data_e_total (prazo_investimento,cap_inicial,apo_mensal):#define dia e resgate , valor final e ainda separa visualmente os blocos
+    hoje=datetime.datetime.now()#dia da simulação
+    resgate=hoje+datetime.timedelta(days=prazo_investimento*30)#dia do resgate
+    total_investido=cap_inicial+(apo_mensal*prazo_investimento)#total investido
     print('')
     print('=====================================================')#enfeite
     print(f'PyInvest - Simulador {hoje.strftime('%d/%m/%Y')}')#data da simulação
@@ -64,7 +83,15 @@ def validação (cap_inicial,apo_mensal,prazo_investimento):#verifica se os valo
 def principal ():#função principal para reunir os prints
     print('===== PyInvest - Simulador ===========================')#enfeite
     cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()#chama os input e guarda eles 
+    media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)
+    cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)
+    barra_cdb,barra_fii=graficos(cdb_1,media_fii)
     validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar 
     data_e_total(prazo_investimento,cap_inicial,apo_mensal)
-    print(f'o valor cdb {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#teste que eu fiz para ver se o valor cdb estava certo
+    print(f'CDB         : {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#valor cdb
+    print(f'Grafico     : {'█'*barra_cdb}')
+    print(f'FII (Media) : {valor_br(media_fii)}')
+    print(f'Grafico     : {'█'*barra_fii}')
+    print(f'A mediana de FII foi de {valor_br(mediana_fii)}')
+    print(f'A desvio de FII foi de {valor_br(desvio_fii)}') 
 principal()#inicial a função principal para colocar os dados
