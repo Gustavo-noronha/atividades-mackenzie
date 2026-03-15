@@ -83,10 +83,10 @@ def validação (cap_inicial,apo_mensal,prazo_investimento):#verifica se os valo
 def principal ():#função principal para reunir os prints
     print('===== PyInvest - Simulador ===========================')#enfeite
     cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()#chama os input e guarda eles 
+    validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar
     media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)#transforma a função em um variavel
     barra_cdb,barra_fii=graficos(cdb_1,media_fii)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
-    validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar 
     data_e_total(prazo_investimento,cap_inicial,apo_mensal)#mostra a hora e o prazo
     print(f'CDB         : {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#valor cdb
     print(f'Grafico     : {'█'*barra_cdb}')#gera o grafico 
