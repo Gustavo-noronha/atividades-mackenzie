@@ -34,6 +34,11 @@ def calcular_cdb (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb):#c
     valor_final=valor_bruto-(lucro*regressiva_ir(prazo_investimento))#valor final
     return valor_final
 
+def calcular_poupança (cap_inicial, apo_mensal, prazo_investimento):#calcula poupança
+    taxa=0.005 # taxa ja dada de 0.5% ao mes 
+    valor_final = cap_inicial * math.pow(1+taxa, prazo_investimento) + apo_mensal * ((math.pow(1+taxa, prazo_investimento)-1)/taxa)
+    return valor_final
+
 def calcular_fii (cap_inicial, apo_mensal, prazo_investimento, renta_mensa):
     taxa_convertida=renta_mensa/100#% para decimal 
     valor_principal=cap_inicial*math.pow(1+taxa_convertida, prazo_investimento) + apo_mensal * ((math.pow(1+taxa_convertida, prazo_investimento)-1)/taxa_convertida)
@@ -47,11 +52,26 @@ def calcular_fii (cap_inicial, apo_mensal, prazo_investimento, renta_mensa):
     mediana = statistics.median(calculos)#gera mediana
     desvio = statistics.stdev(calculos)#gera desvio padrao
     return media,mediana,desvio
-def graficos (cdb_1,media_fii):#gera a quantidade de blocos a serem usadas
-    maior=max(cdb_1,media_fii)#pega o maior valor presente
+def maior_valor (cdb_1,media_fii,poupanca):#fala qual e a melhor op
+    maior=max(cdb_1,media_fii,poupanca)
+    if maior == cdb_1:
+        print(f'Melhor opção: CDB com {valor_br(cdb_1)}')
+    elif maior == media_fii:
+        print(f'Melhor opção: FII(Média) com {valor_br(media_fii)}')
+    else:
+        print(f'Melhor opção: Poupança com {valor_br(poupanca)}')
+def ver_meta (meta,cdb_1,media_fii,poupanca):#olha a meta
+    maior=max(cdb_1,media_fii,poupanca)
+    if meta<=maior:
+        print('Meta atingida? Sim')
+    else:
+        print('Meta atingida? Não')
+def graficos (cdb_1,poupanca,media_fii):#gera a quantidade de blocos a serem usadas
+    maior=max(cdb_1,media_fii,poupanca)#pega o maior valor presente
     barra_cdb=int((cdb_1/maior)*50)
+    barra_pou=int((poupanca/maior)*50)
     barra_fii=int((media_fii/maior)*50)
-    return barra_cdb,barra_fii
+    return barra_cdb,barra_pou,barra_fii
 
 def dados():#valores a serem enseridos
     cap_inicial=float(input('Capital inicial: '))
@@ -86,12 +106,19 @@ def principal ():#função principal para reunir os prints
     validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar
     media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)#transforma a função em um variavel
-    barra_cdb,barra_fii=graficos(cdb_1,media_fii)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
+    poupanca=calcular_poupança (cap_inicial, apo_mensal, prazo_investimento)
+    ver_meta (meta,cdb_1,media_fii,poupanca)
+    barra_cdb,barra_pou,barra_fii=graficos(cdb_1,poupanca,media_fii)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     data_e_total(prazo_investimento,cap_inicial,apo_mensal)#mostra a hora e o prazo
     print(f'CDB         : {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#valor cdb
     print(f'Grafico     : {'█'*barra_cdb}')#gera o grafico 
+    print(f'Poupança    : {valor_br(calcular_poupança(cap_inicial, apo_mensal, prazo_investimento))}')#valor Poupança
+    print(f'Grafico     : {'█'*barra_pou}')#gera o grafico 
     print(f'FII (Media) : {valor_br(media_fii)}')#valor FII
     print(f'Grafico     : {'█'*barra_fii}')#gera o grafico 
     print(f'A mediana de FII foi de {valor_br(mediana_fii)}')#gera a mediana 
     print(f'O desvio padrão de FII foi de {valor_br(desvio_fii)}') #gera o desvio
+    ver_meta (meta,cdb_1,media_fii,poupanca)#fala a meta
+    print()
+    maior_valor(cdb_1,media_fii,poupanca)#maior valor
 principal()#inicial a função principal para colocar os dados
