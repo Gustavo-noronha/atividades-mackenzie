@@ -34,7 +34,7 @@ def calcular_cdb (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb):#c
     valor_final=valor_bruto-(lucro*regressiva_ir(prazo_investimento))#valor final
     return valor_final
 
-def calcular_lca_lci (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_lci):
+def calcular_lca_lci (cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_lci):#lca/lci
     taxa_cdi=converter_taxa_cdi(cdi)
     taxa_total=taxa_cdi*(perc_cdi_lci/100)
     valor_bruto=cap_inicial* math.pow(1 + taxa_total,prazo_investimento)+ apo_mensal*((math.pow(1+taxa_total, prazo_investimento)-1)/taxa_total)#volar bruto
@@ -111,13 +111,12 @@ def validação (cap_inicial,apo_mensal,prazo_investimento):#verifica se os valo
 
 def principal ():#função principal para reunir os prints
     print('===== PyInvest - Simulador ===========================')#enfeite
-    cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()#chama os input e guarda eles
+    cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb, perc_cdi_lci, renta_mensa, meta=dados()#chama os input e guarda eles nas variaveis
     validação(cap_inicial,apo_mensal,prazo_investimento)#chama a validação para ela testar
     media_fii, mediana_fii, desvio_fii = calcular_fii(cap_inicial, apo_mensal, prazo_investimento, renta_mensa)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     cdb_1= calcular_cdb(cap_inicial, apo_mensal, prazo_investimento, cdi, perc_cdi_cdb)#transforma a função em um variavel
     lca_lci=calcular_lca_lci(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_lci)
     poupanca=calcular_poupança (cap_inicial, apo_mensal, prazo_investimento)
-    ver_meta (meta,cdb_1,lca_lci,media_fii,poupanca)
     barra_cdb,barra_lca,barra_pou,barra_fii=graficos(cdb_1,lca_lci,poupanca,media_fii)#cria variaveis para eu conseguir escolher qual informacao do retunr eu quero
     data_e_total(prazo_investimento,cap_inicial,apo_mensal)#mostra a hora e o prazo
     print(f'CDB         : {valor_br(calcular_cdb(cap_inicial,apo_mensal,prazo_investimento,cdi,perc_cdi_cdb))}')#valor cdb
