@@ -1,3 +1,8 @@
+"""
+Projeto turma 01N11
+Gustavo Tavernari noronha RA:10769664
+Luiz Gustavo Burckas Cecheto RA:10413949
+"""
 import math
 import random
 import datetime
@@ -75,7 +80,7 @@ def ver_meta (meta,cdb_1,media_fii,poupanca,lca):#olha a meta
     else:
         print('Meta atingida? Não')
 def graficos (cdb_1,lca_lci,poupanca,media_fii):#gera a quantidade de blocos a serem usadas
-    maior=max(cdb_1,media_fii,poupanca)#pega o maior valor presente
+    maior=max(cdb_1,lca_lci,media_fii,poupanca)#pega o maior valor presente
     barra_cdb=int((cdb_1/maior)*50)
     barra_lca=int((lca_lci/maior)*50)
     barra_pou=int((poupanca/maior)*50)
