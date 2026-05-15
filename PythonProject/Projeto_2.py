@@ -1,3 +1,9 @@
+"""
+Projeto turma 01N11
+Gustavo Tavernari noronha RA:10769664
+Luiz Gustavo Burckas Cecheto RA:10413949
+"""
+
 import random
 
 # SUPER TRUNFO - TEMA: PLANETAS DO SISTEMA SOLAR
@@ -58,7 +64,7 @@ def distribuir(baralho):#distribui
     return jogador1, jogador2
 
 
-def exibir_carta(carta, mostrar_atributos=True):
+def exibir_carta(carta, mostrar_atributos=True):#exibe a carta
     if mostrar_atributos:
         print(f"     {carta[0]:<26}")
         for i in range(1, len(GABARITO)):
@@ -125,7 +131,7 @@ def jogar_single_player():#jogar contra PC
         rodada += 1
         print(f"  Rodada {rodada} | Você: {len(mao_jogador)} cartas | PC: {len(mao_pc)} cartas")
 
-        carta_jogador = mao_jogador[0]
+        carta_jogador = mao_jogador[0]#faz pegar a primeira carta
         carta_pc = mao_pc[0]
 
         if vez_humano:
